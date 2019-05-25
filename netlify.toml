@@ -1,0 +1,3 @@
+[build]
+    publish = "dist/pfa"
+    command = "ng version; node -v; npm run build"
