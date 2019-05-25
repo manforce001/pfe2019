@@ -1,0 +1,185 @@
+<app-navbar></app-navbar>
+<br><br><br><br>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h2>tableau de bord</h2>
+        </div>
+        <div class="card-body">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="card">
+                  <div (click)='getListeClient()' data-target="#myModal" class="card-header bg-secondary text-white text-center">
+                    <a style="text-decoration: none!important;color: antiquewhite!important"  href='' data-toggle="modal" data-target="#myModal">
+                      <h6>Client</h6>
+                    </a>
+                  </div>
+                  <div class="card-body text-center">
+                    <div class="btn-group ">
+                      <a href="" routerLink="/admin/client/ajoute" class="btn btn-primary"><i class="material-icons">note_add</i>Ajoute</a>
+                      <a href="" routerLink="/admin/ListAjouteRuche"  class="btn btn-primary"><i class="material-icons">note_add</i> Ajoute Ruche</a>
+                      <a href="" routerLink="/admin/ListSupprimerClient" class="btn btn-primary"><i class="material-icons">delete_forever</i>Supprimer</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="card">
+                      <div class="card-header bg-secondary text-white text-center">
+                          <a (click)='getListeEmpl()' style="text-decoration: none!important;color: antiquewhite!important" href='' data-toggle="modal" data-target="#myModal2">
+                        <h6>Technicien</h6></a>
+                      </div>
+                      <div class="card-body text-center">
+                          <div class="btn-group ">
+                            <a href="" routerLink="/admin/employe/ajoute" class="btn btn-primary"><i class="material-icons">note_add</i>Ajoute</a>
+                            <a  href="" routerLink="/admin/ListModifierEmploye" class="btn btn-primary"><i class="material-icons">build</i> Modifier</a>
+                            <a href="" routerLink="/admin/ListSupprimerEmploye" class="btn btn-primary"><i class="material-icons">delete_forever</i>Supprimer</a>
+                          </div><br><br>
+                        </div>
+                    </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="container">
+                <div class="col">
+                  <div class="card">
+                    <div class="card-header">
+                      <a class="card-link" data-toggle="collapse" href="#stat"><h2> Statistique </h2></a>
+                    </div>
+                    <div id="stat" class="collapse">
+                      <form class="form-inline">
+                        <div class="form-group fromStat">
+                            <label for="date">Date: </label>
+                            <select (change)="dateStat($event.target.value)" class="form-control" id="date">
+                              <option value="tout">Tout</option>
+                              <option>Aujourd'huis</option>
+                              <option>Cette semaine</option>
+                              <option>Cette mois</option>
+                              <option>Cette année</option>
+                            </select>
+                            <label for="gouvernorat">Gouvernorat: </label>
+                            <select (change)="gouvStat($event.target.value)" class="form-control" id="gouvernorat">
+                              <option value="tout">Tout</option>
+                              <option value="Ariana">Ariana</option>
+                              <option value="Béja">Béja</option>
+                              <option value="Ben Arous">Ben Arous</option>
+                              <option value="Bizerte">Bizerte</option>
+                              <option value="Gabès">Gabès</option>
+                              <option value="Gafsa">Gafsa</option>
+                              <option value="Jendouba">Jendouba</option>
+                              <option value="Kairouan">Kairouan</option>
+                              <option value="Kasserine">Kasserine</option>
+                              <option value="Kébili">Kébili</option>
+                              <option value="Le Kef">Le Kef</option>
+                              <option value="Mahdia">Mahdia</option>
+                              <option value="Manouba">Manouba</option>
+                              <option value="Médenine">Médenine</option>
+                              <option value="Monastir">Monastir</option>
+                              <option value="Nabeul">Nabeul</option>
+                              <option value="Sfax">Sfax</option>
+                              <option value="Sidi Bouzid">Sidi Bouzid</option>
+                              <option value="Siliana">Siliana</option>
+                              <option value="Sousse">Sousse</option>
+                              <option value="Tataouine">Tataouine</option>
+                              <option value="Tozeur">Tozeur</option>
+                              <option value="Tunis">Tunis</option>
+                              <option value="Zaghouan">Zaghouan</option>
+                            </select>
+                            <label for="region">Région: </label>
+                            <select (change)="regionStat($event.target.value)" class="form-control" id="region">
+                              <option value="tout">Tout</option>
+                              <option  *ngFor="let e of ListeRegion" value="{{e}}">{{e}}</option>
+                            </select>
+                            <button class="btn btn-primary" (click)="afficheStat()" >Voir </button>
+                        </div>
+                      </form>
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Liste des Client ({{listeClient.length}})</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div id="accordion">
+            <div *ngFor = "let client of listeClient" class="card" >
+              <div class="card-header">
+                <a class="card-link" data-toggle="collapse" href="#id{{listeClient.indexOf(client)}}">
+                  <strong> Nom&prénom: </strong>  {{client.nom}} {{client.prenom}}
+                  <span style="float: right"><strong>Cin :</strong> {{client.cin}} </span>
+                </a>
+              </div>
+              <div id="id{{listeClient.indexOf(client)}}" class="collapse" data-parent="#accordion">
+                <div class="card-body">
+                  <strong>Nombre ruche :</strong> <span>{{NombreRuche(client.ruches)}}</span><br>
+                  <strong>Tel:</strong><span> {{client.tel}} </span><br>
+                  <strong>Email:</strong><span> {{client.email}} </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="modal" id="myModal2">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Liste des technicien ({{listeEmploye.length}})</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div id="accordion">
+            <div *ngFor = "let client of listeEmploye" class="card" >
+              <div class="card-header">
+                <a class="card-link" data-toggle="collapse" href="#id{{listeEmploye.indexOf(client)}}">
+                  <strong> Nom&prénom: </strong>  {{client.nom}} {{client.prenom}}
+                  <span style="float: right"><strong>Cin :</strong> {{client.cin}} </span>
+                </a>
+              </div>
+              <div id="id{{listeEmploye.indexOf(client)}}" class="collapse" data-parent="#accordion">
+                <div class="card-body">
+                  <strong>Tel:</strong><span> {{client.tel}} </span><br>
+                  <strong>Email:</strong><span> {{client.email}} </span><br>
+                  <strong>Gouvernorat:</strong><span> {{client.gouvernerat}} </span><br>
+                  <strong>Ville:</strong><span> {{client.ville}} </span><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+

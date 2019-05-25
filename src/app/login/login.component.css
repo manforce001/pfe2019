@@ -1,0 +1,10 @@
+.main{
+  background-color: #ffffff;
+  border-radius: 15px;
+}
+button{
+  background-color: #ebc417
+}
+button :hover{
+  color: #b8b1b1
+}

@@ -1,0 +1,67 @@
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <a (click)="affichecT()">
+            <div class="card">
+              <div class="card-header bg-secondary text-white text-center">
+                  <h6 style="margin: 0">Temperature <img src="../../assets/icon/temperature.png" style="width:32px; height: 32px "></h6>
+              </div>
+              <div class="card-body text-center">
+                <h1> {{maintenant.temperature}} c°</h1>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-4">
+          <a (click)="affichecP()">
+            <div class="card">
+              <div class="card-header bg-secondary text-white text-center">
+                <h6 style="margin: 0">Poids <img src="../../assets/icon/poids.ico" style="width:32px; height: 32px "></h6>
+              </div>
+              <div class="card-body text-center">
+                <h1> {{maintenant.poid}} g</h1>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-4">
+          <a (click)="affichecH()">
+            <div class="card">
+              <div class="card-header bg-secondary text-white text-center">
+                <h6></h6><h6 style="margin: 0">Humidité <img src="../../assets/icon/humidité.png" style="color: rgb(17, 169, 230); width:32px; height: 32px "></h6>
+              </div>
+              <div class="card-body text-center">
+                <h1> {{maintenant.humidite}} </h1>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+
+            <div class="col-md-12" [class.t]=t>
+              <div class="card">
+                <div class="card-body text-center">
+                    <canvas #lineChartT>{{ chartT }}</canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12" [class.p]=p>
+              <div class="card">
+                <div class="card-body text-center">
+                    <canvas #lineChartP>{{ chartP }}</canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12" [class.h]=h>
+                <div class="card">
+                  <div class="card-body text-center">
+                      <canvas #lineChartH>{{ chartH }}</canvas>
+                  </div>
+                </div>
+            </div>
+
+      </div>
+    </div>

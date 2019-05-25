@@ -1,0 +1,95 @@
+<app-navbar></app-navbar><br><br><br><br>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h2>Ajouter Employée : </h2>
+    </div>
+    <div class="card-body">
+      <form class="form-horizontal" >
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="email">Email:</label>
+          <div class="col-sm-10">
+            <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" [(ngModel)]="data.email">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="nom">Nom:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="nom" placeholder="Enter Nom" name="nom" [(ngModel)]="data.nom">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="prenom">Prenom:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="prenom" placeholder="Enter prenom" name="prenom" [(ngModel)]="data.prenom">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="Tel">Tel:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="Tel" placeholder="Enter Tel" name="Tel" [(ngModel)]="data.tel">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="cin">CIN:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="cin" placeholder="Enter CIN" name="cin" [(ngModel)]="data.cin">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="exampleFormControlSelect2">Gouvernorat</label>
+         <div class="col-sm-10">
+          <select name="reg"  (change)="onChange($event.target.value)"  class="form-control" id="exampleFormControlSelect2">
+            <option selected>choisie une region</option>
+            <option value="Ariana">Ariana</option>
+            <option value="Béja">Béja</option>
+            <option value="Ben Arous">Ben Arous</option>
+            <option value="Bizerte">Bizerte</option>
+            <option value="Gabès">Gabès</option>
+            <option value="Gafsa">Gafsa</option>
+            <option value="Jendouba">Jendouba</option>
+            <option value="Kairouan">Kairouan</option>
+            <option value="Kasserine">Kasserine</option>
+            <option value="Kébili">Kébili</option>
+            <option value="Le Kef">Le Kef</option>
+            <option value="Mahdia">Mahdia</option>
+            <option value="Manouba">Manouba</option>
+            <option value="Médenine">Médenine</option>
+            <option value="Monastir">Monastir</option>
+            <option value="Nabeul">Nabeul</option>
+            <option value="Sfax">Sfax</option>
+            <option value="Sidi Bouzid">Sidi Bouzid</option>
+            <option value="Siliana">Siliana</option>
+            <option value="Sousse">Sousse</option>
+            <option value="Tataouine">Tataouine</option>
+            <option value="Tozeur">Tozeur</option>
+            <option value="Tunis">Tunis</option>
+            <option value="Zaghouan">Zaghouan</option>
+          </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="exampleFormControlSelect1">Ville</label>
+          <div class="col-sm-10">
+          <select name="ville" (change)="onChangeV($event.target.value)"  class="form-control" id="exampleFormControlSelect1" >
+            <option selected>choisie une ville</option>
+            <option  *ngFor="let e of region" value="{{e}}">{{e}}</option>
+          </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="pwd">Password:</label>
+          <div class="col-sm-10">
+            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="mdp" [(ngModel)]="data.mdp">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+              <p class="text-danger">{{ errorMessage }}</p>
+            <button type="submit" class="btn btn-primary" (click)="ajouterClient()">Enregistrer</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<app-navbar></app-navbar>
+<br><br><br><br>
+<div class="container">
+  <div class="row">
+    <br>
+    <div class="col-md-12">
+      <div class="card">
+        <br>
+        <div class="recherche">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-4">
+                <h3>Saisire Nom de Employe :</h3>
+             </div>
+             <div class="col-lg-6">
+                <form class="form-inline" >
+                    <input [(ngModel)]="nomRech" name="rar" class="form-control" type="text" placeholder="Recherche...">
+                    <button style="margin-left: 20px " class="btn btn-success"  (click)='rech()'>Recherche</button>
+                </form>
+              </div>
+            </div>
+            <div class="container ">
+              <br>
+              <h5> {{listeClient.length}} Resultat</h5>
+            </div>
+          </div>
+          <br>
+        </div>
+        <div *ngFor="let e of listeClient"  class="alert alert-secondary" style="margin-left:10px; margin-right: 10px; ">
+            <strong>Nom :</strong> {{e.nom}}  <br>
+            <strong>Prenom :</strong> {{e.prenom}} <br>
+            <strong>CIN :</strong> {{e.cin}} <br>
+            <a (click)="valide(e)" class="btn btn-warning " [class.bv]=bv style="float:right">Modifier</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+

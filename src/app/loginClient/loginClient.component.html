@@ -1,0 +1,31 @@
+
+<br>
+<div class="container ">
+  <div class="rows">
+    <div class="col-md-5" style="margin: auto">
+      <div class="container main">
+        <form class="form-signin">
+          <br>
+          <div class="text-center mb-4">
+            <h1 class="h3 mb-3 font-weight-normal">Smart Ruche</h1>
+          </div>
+          <div class="form-label-group">
+            <label for="inputIdentifient">Identifient</label>
+            <input [(ngModel)]='Identifient' name="Identifient" type="text" id="inputIdentifient" class="form-control" placeholder="Identifient" required autofocus>
+          </div>
+          <div class="form-label-group">
+            <label for="inputMp">Mot de passe</label>
+            <input [(ngModel)]='mdp' name="mdp" type="password" id="inputMp" class="form-control" placeholder="Mot de passe" required>
+          </div>
+          <br>
+          <button class="btn btn-lg btn-primary btn-block" type="submit" (click)="submit()" >Sign in</button>
+          <div class="text-center" style=" margin-top: 5%;padding-bottom: 5%">
+            <a href="#" class="mt-5 mb-3 text-muted text-center" (click)="affiche()">Propre</a>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

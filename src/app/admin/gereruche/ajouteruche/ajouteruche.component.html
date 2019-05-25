@@ -1,0 +1,60 @@
+<app-navbar></app-navbar><br><br><br><br>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h2>Ajouter Ruche</h2>
+    </div>
+    <div class="card-body">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label for="exampleFormControlSelect2">Gouvernorat</label>
+          <select name="reg"  (change)="onChange($event.target.value)"  class="form-control" id="exampleFormControlSelect2">
+            <option selected>choisie une region</option>
+            <option value="Ariana">Ariana</option>
+            <option value="Béja">Béja</option>
+            <option value="Ben Arous">Ben Arous</option>
+            <option value="Bizerte">Bizerte</option>
+            <option value="Gabès">Gabès</option>
+            <option value="Gafsa">Gafsa</option>
+            <option value="Jendouba">Jendouba</option>
+            <option value="Kairouan">Kairouan</option>
+            <option value="Kasserine">Kasserine</option>
+            <option value="Kébili">Kébili</option>
+            <option value="Le Kef">Le Kef</option>
+            <option value="Mahdia">Mahdia</option>
+            <option value="Manouba">Manouba</option>
+            <option value="Médenine">Médenine</option>
+            <option value="Monastir">Monastir</option>
+            <option value="Nabeul">Nabeul</option>
+            <option value="Sfax">Sfax</option>
+            <option value="Sidi Bouzid">Sidi Bouzid</option>
+            <option value="Siliana">Siliana</option>
+            <option value="Sousse">Sousse</option>
+            <option value="Tataouine">Tataouine</option>
+            <option value="Tozeur">Tozeur</option>
+            <option value="Tunis">Tunis</option>
+            <option value="Zaghouan">Zaghouan</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Ville</label>
+          <select name="ville" (change)="onChangeV($event.target.value)"  class="form-control" id="exampleFormControlSelect1" >
+            <option selected>choisie une ville</option>
+            <option  *ngFor="let e of region" value="{{e}}">{{e}}</option>
+          </select>
+        </div>
+        <div class="form-group" [class.empListe]='empListe'>
+          <label for="exampleFormControlSelect3">List Employées disponible :</label>
+          <select multiple  name="reg" (change)="onChangeE($event.target.value)" class="form-control" id="exampleFormControlSelect3">
+              <option *ngFor="let emp of empl" value="{{emp.$key}}">{{emp.nom}} {{emp.prenom}} : {{emp.nbrRuche}} </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button (click)="ajoute()" type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+.recherche{
+  margin-left: 20%;
+}
+ .ar {
+ display: none;
+}
+.sc {
+  display: none;
+ }
+ .me {
+  display: none;
+ }
+ .se {
+  display: none;
+ }
+.fromStat label{
+  margin: 20px;
+}
+.fromStat select{
+  margin-right: 20px;
+}

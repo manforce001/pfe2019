@@ -1,0 +1,155 @@
+<nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top " >
+  <div class="dropdown" id="dropdownListeRuches">
+    <button type="button" class="btn btn-light  dropdown-toggle" style="background-color: #ebc417" data-toggle="dropdown">
+     Menu
+    </button>
+    <div id="ListeNavBarRuche" class="dropdown-menu">
+      <a  data-toggle="collapse" href="#MenuListeClient" class="btn ">Liste des clients</a>
+      <div id="MenuListeClient" class="collapse" data-parent="#ListeNavBarRuche">
+          <a>sss</a>
+      </div>
+      <a data-toggle="modal" data-target="#myModal" class="btn "><i class="far fa-bell"></i>  Notification </a><span class="badge badge-light" style=" float: right;margin-right: 10px;margin-top:8px;">0</span>
+      <hr>
+      <a   class="btn ">Alert </a><i class="material-icons" style=" float: right;margin-right: 10px">assignment_late</i>
+    </div>
+  </div>
+  <a routerLink="/employee" href=""><img src="../../assets/logo.jpg" style="width: 45px;height: 45px;"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav  ml-auto">
+      <li class="nav-item">
+        <a class="nav-link navItemText" (click)="Deconnexion()" ><i class="fas fa-sign-out-alt" style="font-size:25px"></i></a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<br><br><br><br>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-2" id="collapsibleSidebar">
+      <div id="ListeSideBarRuche" class="listeRuche">
+        <br><br><br>
+        <h5>Menu</h5>
+        <hr style=" border: 5px solid #343a40!important ;">
+        <div id="listMenuBoutton" class="listRucheBoutton">
+            <a  data-toggle="collapse" href="#MenuListeClient"  class="btn ">Liste des clients</a>
+            <div id="MenuListeClient" class="collapse" data-parent="#listMenuBoutton">
+                <a>sss</a>
+                <a>sss</a>
+            </div>
+          <a (click)="afficheNotification()" data-toggle="modal" data-target="#myModal" class="btn " >
+            <i class="far fa-bell"></i>
+            Notification
+          </a>
+          <span class="badge badge-light" style=" float: right;margin-right: 10px;margin-top:8px;"></span>
+        </div>
+      </div>
+    </div>
+    <div id="TableauDeBord" class="col-xl-10 col-lg-12  " >
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h2>tableau de bord </h2>
+            </div>
+            <div class="card-body">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-6">
+                      <div class="card">
+                        <div class="card-header"><h4>Notification</h4></div>
+                        <div class="card-body">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                          <div class="card-header"><h4>Historique</h4></div>
+                          <div class="card-body">
+
+                          </div>
+                        </div>
+                      </div>
+                </div>
+                <br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Notifications</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div id="accordion">
+            <div *ngFor = "let notification of notifications" class="card">
+                <div class="card-header">
+                  <a class="card-link" data-toggle="collapse" href="#id{{notifications.indexOf(notification)}}">
+                   <strong> Notification : </strong>
+                    <span style="float: right"><strong>Date :</strong> {{notification.date}} </span>
+                  </a>
+                </div>
+                <div id="id{{notifications.indexOf(notification)}}" class="collapse" data-parent="#accordion">
+                  <div class="card-body">
+                    <strong>ruche N°:</strong> <span>{{notification.rucheid}}</span><br>
+                    <strong>Discription:</strong>
+                    <p>{{notification.discription}}</p>
+                    <button data-toggle="modal" data-target="#Reponde" (click)="getNotif(notification)" class="btn btn-success" style="float: right;margin-bottom: 5px">Reponde</button>
+                  </div>
+                </div>
+              </div>
+        </div>
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="Reponde">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title"></h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+            <div id="accordion">
+                <label for="comment">Discription</label>
+                <textarea [(ngModel)]="dicriptionNotificationReponde" class="form-control" rows="5" id="comment"></textarea>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect2">Liste Des Ruches</label>
+                    <select name="reg"  (change)="NotificationRepondeResultat($event.target.value)"  class="form-control" id="exampleFormControlSelect2">
+                      <option>Selecte le status de la ruche</option>
+                      <option value="valider">le ruche est bien marche</option>
+                      <option value="novalider">en cours de maintenance</option>
+                  </select>
+                </div>
+            </div>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" (click)="reponde()" class="btn btn-danger" data-dismiss="modal">Envoyer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
