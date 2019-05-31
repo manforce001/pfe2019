@@ -5,9 +5,9 @@
     </button>
     <div id="ListeNavBarRuche" class="dropdown-menu">
       <a  data-toggle="collapse" href="#MenuListeClient" class="btn ">Liste des clients</a>
-      <div id="MenuListeClient" class="collapse" data-parent="#ListeNavBarRuche">
-          <a>sss</a>
-      </div>
+      <div  id="MenuListeClient" class="collapse" data-parent="#listMenuBoutton">
+          <a   *ngFor="let client of listeClient" data-toggle="modal" data-target="#info" class="btn itmRuche" (click)="afficheClient(client)"> {{client.nom}} {{client.prenom}} </a>
+       </div>
       <a data-toggle="modal" data-target="#myModal" class="btn "><i class="far fa-bell"></i>  Notification </a><span class="badge badge-light" style=" float: right;margin-right: 10px;margin-top:8px;">0</span>
       <hr>
       <a   class="btn ">Alert </a><i class="material-icons" style=" float: right;margin-right: 10px">assignment_late</i>
@@ -34,11 +34,17 @@
         <h5>Menu</h5>
         <hr style=" border: 5px solid #343a40!important ;">
         <div id="listMenuBoutton" class="listRucheBoutton">
-            <a  data-toggle="collapse" href="#MenuListeClient"  class="btn ">Liste des clients</a>
-            <div id="MenuListeClient" class="collapse" data-parent="#listMenuBoutton">
-                <a>sss</a>
-                <a>sss</a>
+            <a (click)="getListeC()" data-toggle="collapse" href="#MenuListeClient"  class="btn itmRuche">Liste des clients</a>
+            <hr style=" border: 2px solid #343a40!important ;">
+            <div  id="MenuListeClient" class="collapse" data-parent="#listMenuBoutton">
+               <a style="width: 100%;padding: 0;"  *ngFor="let client of listeClient" data-toggle="modal" data-target="#info" class="btn itmRuche" (click)="afficheClient(client)">
+                  <div>
+                      <a><strong>{{client.clientcin}}: </strong>{{client.nom}} {{client.prenom}}</a>
+                    </div>
+                </a>
+                <hr style=" border: 2px solid #343a40!important ;">
             </div>
+
           <a (click)="afficheNotification()" data-toggle="modal" data-target="#myModal" class="btn " >
             <i class="far fa-bell"></i>
             Notification
@@ -51,34 +57,39 @@
       <div class="row">
         <div class="col-md-12">
           <div class="card">
-            <div class="card-header">
-              <h2>tableau de bord </h2>
-            </div>
-            <div class="card-body">
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-6">
-                      <div class="card">
-                        <div class="card-header"><h4>Notification</h4></div>
-                        <div class="card-body">
-                        </div>
+            <div class="card-header"><a (click)="getListeC()"><h4>Liste des Ruches  <i style="color: rgb(0, 225, 255)" class="fas fa-sync-alt"></i></h4> </a></div>
+            <div class="card-body" id="accordion" >
+              <div  *ngFor = "let client of listeClient">
+                <div *ngFor = "let ruche of client.ruches" class="card">
+                  <div class="card-header">
+                    <a class="card-link" data-toggle="collapse" href="#idR{{listeClient.indexOf(client)}}{{client.ruches.indexOf(ruche)}}">
+                      <strong> Ruche N° : {{client.ruches.indexOf(ruche)+1}} </strong>
+                      <span ><strong>Client :</strong> {{client.clientcin}} </span>
+                      <span *ngIf="!ruche.status" style="float: right"><i style="color:rgb(0, 255, 55)" class="far fa-check-circle"></i> </span>
+                      <span *ngIf="ruche.status"  style="float: right"> <i style="color:rgb(237, 226, 18)" class="fas fa-exclamation-triangle"></i> </span>
+                    </a>
+                  </div>
+                  <div id="idR{{listeClient.indexOf(client)}}{{client.ruches.indexOf(ruche)}}" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                      <strong>Adresse: </strong> <span>{{ruche.gouv}} {{ruche.ville}}</span><br>
+                      <strong>Le Nombr des problèmes: </strong><span>{{ruche.nbrP}} </span><br>
+                      <strong>Activer  depuis: </strong><span>{{ruche.datelancement}} </span><br>
+                      <a data-toggle="collapse" href="#idRL{{listeClient.indexOf(client)}}{{client.ruches.indexOf(ruche)}}" ><strong>Liste des problèmes :</strong></a>
+                      <div id="idRL{{listeClient.indexOf(client)}}{{client.ruches.indexOf(ruche)}}" class="collapse" >
+                        <p *ngFor="let p of ruche.listePro">
+                          <span><strong>detail: </strong> {{p.detail}} </span>
+                          <span style="float: right"> {{p.date}} </span>
+                        </p>
                       </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                          <div class="card-header"><h4>Historique</h4></div>
-                          <div class="card-body">
-
-                          </div>
-                        </div>
-                      </div>
+                  </div>
                 </div>
-                <br>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <br>
     </div>
   </div>
 </div>
@@ -144,6 +155,30 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" (click)="reponde()" class="btn btn-danger" data-dismiss="modal">Envoyer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="modal" id="info">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Client: {{client.cin}}</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <span><strong>Nom: </strong> {{client.nom}}</span><br>
+          <span><strong>Prénom: </strong> {{client.prenom}}</span><br>
+          <span><strong>Adresse: </strong> {{client.adresse}}</span><br>
+          <span><strong>Téléphone: </strong> {{client.tel}}</span><br>
+          <span><strong>Nombre des Ruches: </strong> {{client.nbrRuche}}</span><br>
+          <span><strong>Nombre des Ruches en charge: </strong> {{client.nbrRucheRes}}</span>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>

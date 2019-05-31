@@ -4,6 +4,7 @@ import * as firebase from 'firebase';
 import { AfficheListeService } from './service/client/afficheListe.service';
 import { AfficheListeService as Listeser } from './service/employee/afficheListe.service';
 import { GetSetListeService } from './service/employee/recherche/getSetListe.service';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Component({
   selector: 'app-admin',
@@ -22,7 +23,11 @@ export class AdminComponent implements OnInit {
   AjouteR: string;
   SuppC: string;
   listeClient = [];
+  listeC;
+  dblisteC;
   listeEmploye = [];
+  listeE;
+  dblisteE;
   ar = true;
   sc = true;
   me = true;
@@ -55,14 +60,44 @@ export class AdminComponent implements OnInit {
     this.ar = true;
   }
   getListeClient() {
-    this.listeClient.pop();
-    this.listeClient = this.ListC.get();
-  }
-  getListeEmpl() {
+    this.getListeC();
+    this.listeC.forEach(element => {
+      if(!this.existe(element, this.listeClient)) {
+        this.listeClient.push(element);
+        }
+    });
 
+  }
+  getListeE () {
+    this.dblisteE.valueChanges().subscribe(firebaseData => {
+      this.listeE = firebaseData;
+    });
+   }
+   getListeC(){
+    this.dblisteC.valueChanges().subscribe(firebaseData => {
+      this.listeC = firebaseData;
+    });
+   }
+  getListeEmpl() {
     this.listeEmploye.pop();
-    this.listeEmploye = this.ListE.get();
+    this.getListeE();
+    for(let k in this.listeE)
+    {
+      if (this.listeE.hasOwnProperty(k)) {
+        if(!this.existe(this.listeE[k],this.listeEmploye)) {
+        this.listeEmploye.push(this.listeE[k]);
+        }
+      }
+    }
     this.xx.set( this.listeEmploye);
+  }
+  existe( e,t) {
+    for(let  k of t) {
+      if(k.cin === e.cin) {
+        return true;
+      }
+    }
+    return false;
   }
   NombreRuche(ruches) {
     let nbr = 0;
@@ -77,10 +112,17 @@ export class AdminComponent implements OnInit {
   constructor( private route: Router,
                private ListC: AfficheListeService,
                private ListE: Listeser,
-               private xx: GetSetListeService) {}
+               private db: AngularFireDatabase,
+               private xx: GetSetListeService) {
+                this.dblisteE = db.list('/employe');
+                this.dblisteC = db.list('/clients');
+               }
 
   ngOnInit() {
-    this.getListeEmpl();
+    this.getListeE();
+    this.getListeC();
+    this.getListeEmpl() ;
+    this.getListeClient() ;
   }
   rechAR() {
       this.route.navigate(['/admin/ListAjouteRuche'], {

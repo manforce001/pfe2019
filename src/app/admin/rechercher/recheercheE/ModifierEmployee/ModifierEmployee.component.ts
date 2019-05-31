@@ -13,9 +13,30 @@ import { SupprimeService } from '../../../service/employee/supprime.service';
 })
 export class ModifierEmployeeComponent implements OnInit {
  listeregion = [
-    {'id': "sfax", 'liste': ["BirAl", "SakiyetZiyet"]},
-    {'id': "tunis", 'liste': ["ssss", "zzzz"]},
-    {'id': "gabes", 'liste': ["xxxx", "wwww"]},
+  {'id': "Ariana", 'liste': ["Ariana Ville", "Ettadhamen","Kalâat el-Andalous","Soukra","Mnihla","Raoued","Sidi Thabet"]},
+  {'id': "Béja", 'liste': ["Amdoun", "Béja Nord", "Béja Sud", "Goubellat", "Medjez el-Bab", "Nefza", "Téboursouk", "Testour", "Thibar"]},
+  {'id': "Ben Arous", 'liste': ["Ben Arous", "Radès", "Mornag", "Mégrine", "Medina Jedida", "Mohamedia", "Hammam Lif", "Hammam Chott", "Fouchana", "Ezzahra", "El Mourouj", "Bou Mhel el-Bassatine"]},
+  {'id': "Bizerte", 'liste': ["Bizerte Nord", "Bizerte Sud", "El Alia", "Ghar El Melh", "Ghezala", "Joumine", "Mateur", "Menzel Bourguiba", "Menzel Jemil", "Ras Jebel", "Sejnane", "Tinja", "Utique", "Zarzouna"]},
+  {'id': "Gabès", 'liste': ["xxxx", "wwww"]},
+  {'id': "Gafsa", 'liste': ["xxxx", "wwww"]},
+  {'id': "Jendouba", 'liste': ["xxxx", "wwww"]},
+  {'id': "Kairouan", 'liste': ["xxxx", "wwww"]},
+  {'id': "Kasserine", 'liste': ["xxxx", "wwww"]},
+  {'id': "Kébili", 'liste': ["xxxx", "wwww"]},
+  {'id': "Le Kef", 'liste': ["xxxx", "wwww"]},
+  {'id': "Mahdia", 'liste': ["xxxx", "wwww"]},
+  {'id': "Manouba", 'liste': ["xxxx", "wwww"]},
+  {'id': "Médenine", 'liste': ["xxxx", "wwww"]},
+  {'id': "Monastir", 'liste': ["xxxx", "wwww"]},
+  {'id': "Nabeul", 'liste': ["xxxx", "wwww"]},
+  {'id': "Sfax", 'liste': ["xxxx", "wwww"]},
+  {'id': "Sidi Bouzid", 'liste': ["xxxx", "wwww"]},
+  {'id': "Siliana", 'liste': ["xxxx", "wwww"]},
+  {'id': "Sousse", 'liste': ["xxxx", "wwww"]},
+  {'id': "Tataouine", 'liste': ["xxxx", "wwww"]},
+  {'id': "Tozeur", 'liste': ["xxxx", "wwww"]},
+  {'id': "Tunis", 'liste': ["xxxx", "wwww"]},
+  {'id': "Zaghouan", 'liste': ["xxxx", "wwww"]},
   ];
   gouv: string;
   ville: string;

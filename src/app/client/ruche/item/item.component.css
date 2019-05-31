@@ -1,0 +1,14 @@
+.item{
+  border-top-left-radius: 2rem;
+   border-top-right-radius: 2rem;
+   border-bottom-left-radius: 2rem;
+   border-bottom-right-radius: 2rem;
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding-right: 25px;
+  margin-left: 25px;
+ }
+
+ .courbe canvas{
+   padding-top: 25px;
+   padding-bottom: 10px;
+ }

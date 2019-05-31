@@ -6,6 +6,8 @@ import * as $ from 'jquery';
 import * as firebase from 'firebase';
 import { RemoveNotifService} from './service/removeNotif.service';
 import { AddAlertService } from './service/AddAlertService.service';
+import { ProfileService } from '../profile.service'
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-client',
@@ -13,8 +15,7 @@ import { AddAlertService } from './service/AddAlertService.service';
   styleUrls: ['./client.component.css']
 })
 export class ClientComponent implements OnInit {
-  alert =
-   {
+  alert = {
     cin: '',
     ruche: '',
     dis: '',
@@ -38,7 +39,7 @@ export class ClientComponent implements OnInit {
   idRucheAlert: any;
   constructor(private router: Router,
               private route: ActivatedRoute ,
-              private ListeSer: GetProfileService,
+              private ListeSer: ProfileService,
               private ListeNotif: ListeNotificationService,
               private RemoveNotif: RemoveNotifService,
               private AddAlert: AddAlertService
@@ -46,7 +47,7 @@ export class ClientComponent implements OnInit {
     route.queryParams.subscribe(params => {
     this.email = params.email;
     });
-    this.profile = ListeSer.get(this.email);
+    this.profile = ListeSer.get();
 
     this.NomberRuche = 0;
     for (let key in this.listeRuche(this.profile)) {
@@ -79,7 +80,6 @@ export class ClientComponent implements OnInit {
       this.notifications.push(nf[n]);}
     }
   }
-
   Deconnexion() {
     firebase.auth().signOut();
     this.router.navigate(['/']);
@@ -103,11 +103,10 @@ export class ClientComponent implements OnInit {
   }
   Alert() {
     this.AddAlert.add(this.discription, this.idRucheAlert, this.profile.cin ,
-                     this.ruches[this.indexRuche.indexOf(this.idRucheAlert)].empres);
+                     this.ruches[this.indexRuche.indexOf(this.idRucheAlert)].cinEmplRes);
   }
   affiche( ruche: any, id: any) {
 
-    this.NombreNotification = this.ListeNotif.gets(this.profile.cin).length;
     this.tabBORD = ruche;
     this.idRuche = id ;
   }
@@ -157,23 +156,44 @@ export class ClientComponent implements OnInit {
     let v = false;
     let ta = a.split('-');
     let tb = b.split('-');
-    if ((ta[3] as number) < (tb[3] as number) || (ta[3] as number) === (tb[3] as number)) {
-      if ((ta[2] as number) < (tb[2] as number) || (ta[2] as number) === (tb[2] as number)) {
-        if ((ta[1] as number) < (tb[1] as number) || (ta[1] as number) === (tb[1] as number)) {
-          if (((ta[0].split(':')[0] as number) < (tb[0].split(':')[0] as number)) ||
-           ((ta[0].split(':')[0] as number) === (tb[0].split(':')[0] as number))) {
-            if (((ta[0].split(':')[1] as number) < (tb[0].split(':')[1] as number)) ||
-             ((ta[0].split(':')[1] as number) === (tb[0].split(':')[1] as number))) {
+    if (Number(ta[3]) === Number(tb[3])) {
+      if (Number(ta[2]) === Number(tb[2])) {
+        if (Number(ta[1]) === Number(tb[1])) {
+          if (Number(ta[0].split(':')[0]) === Number(tb[0].split(':')[0])) {
+            if (Number(ta[0].split(':')[1]) === Number(tb[0].split(':')[1])) {
               return true;
-            } else { return false; }
-          } else { return false; }
-        } else { return false; }
-      } else { return false; }
-    } else { return false; }
+            } else { return (Number(ta[0].split(':')[1]) < Number(tb[0].split(':')[1])); }
+          } else { return (Number(ta[0].split(':')[0]) < Number(tb[0].split(':')[0])); }
+        } else { return Number(ta[1]) < Number(tb[1]); }
+      } else { return Number(ta[2]) < Number(tb[2]); }
+    } else { return Number(ta[3]) < Number(tb[3]); }
   }
   remove( id: any, n, idr) {
     this.notificationSs[n] = true;
-    //this.RemoveNotif.delete(this.profile.cin, id);
     this.RemoveNotif.moveToHistorique(id, this.profile.cin, idr);
+  }
+  getHistorique(ruche: any) {
+    let objet = ruche.historique;
+    let array = [];
+    for(let k in objet) {
+      if(objet.hasOwnProperty(k)){
+        array.push(objet[k]);
+      }
+    }
+    let tab_en_ordre = false;
+    let taille = array.length;
+    while ( !tab_en_ordre ) {
+      tab_en_ordre = true;
+      for (let i = 0 ; i < taille - 1 ; i++) {
+          if (this.inf(array[i].date, array[i + 1].date)) {
+            let axt =array[i];
+            array[i] = array[i + 1];
+            array[i + 1] = axt;
+            tab_en_ordre = false;
+          }
+      }
+      taille--;
+    }
+    return array.reverse();
   }
 }

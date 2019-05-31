@@ -47,7 +47,7 @@ export class AjouterEmpComponent implements OnInit {
   errorMessage: string ;
   clientarray = [];
   data = {
-    nbrRuche: '0',
+    nbrRuche: 0,
     email: '',
     nom: '',
     prenom: '',

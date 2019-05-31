@@ -12,8 +12,8 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthGuardService } from '../login/AuthGuard.service';
 import { RucheComponent } from './ruche/ruche.component';
-
-
+import { GaugeChartModule } from 'angular-gauge-chart';
+import { ItemComponent } from './ruche/item/item.component';
 
 
 const route: Routes = [
@@ -22,18 +22,19 @@ const route: Routes = [
   ];
 @NgModule({
   imports: [
-    CommonModule, HttpClientModule, FormsModule, BrowserModule,
+    CommonModule, HttpClientModule, FormsModule, BrowserModule, GaugeChartModule,
     AngularFireModule.initializeApp(environment.firebase) , AngularFireAuthModule , AngularFireDatabaseModule,
     RouterModule.forChild(route)
   ],
   declarations: [
     ClientComponent,
     ModifierProfileComponent,
-    RucheComponent
+    RucheComponent,
+    ItemComponent
   ],
   providers: [AuthGuardService],
   exports: [
-    
+
   ]
 })
 export class ClientModule { }

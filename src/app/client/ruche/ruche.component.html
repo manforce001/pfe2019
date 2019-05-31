@@ -1,67 +1,78 @@
 
 
     <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <a (click)="affichecT()">
-            <div class="card">
-              <div class="card-header bg-secondary text-white text-center">
-                  <h6 style="margin: 0">Temperature <img src="../../assets/icon/temperature.png" style="width:32px; height: 32px "></h6>
+        <div class="row">
+          <div class="col-md-4">
+            <a (click)="affichecT()">
+              <div class="card">
+                <div class="card-header bg-secondary text-white text-center">
+                    <h6 style="margin: 0">Temperature <img src="../../assets/icon/temperature.png" style="width:32px; height: 32px "></h6>
+                </div>
+                <div class="card-body text-center">
+                  <h1> {{maintenant.temperature}} c°</h1>
+                </div>
               </div>
-              <div class="card-body text-center">
-                <h1> {{maintenant.temperature}} c°</h1>
+            </a>
+          </div>
+          <div class="col-md-4">
+            <a (click)="affichecP()">
+              <div class="card">
+                <div class="card-header bg-secondary text-white text-center">
+                  <h6 style="margin: 0">Poids <img src="../../assets/icon/poids.ico" style="width:32px; height: 32px "></h6>
+                </div>
+                <div class="card-body text-center">
+                  <h1> {{maintenant.poid}} g</h1>
+                </div>
               </div>
-            </div>
-          </a>
+            </a>
+          </div>
+          <div class="col-md-4">
+            <a (click)="affichecH()">
+              <div class="card">
+                <div class="card-header bg-secondary text-white text-center">
+                  <h6></h6><h6 style="margin: 0">Humidité <img src="../../assets/icon/humidité.png" style="color: rgb(17, 169, 230); width:32px; height: 32px "></h6>
+                </div>
+                <div class="card-body text-center">
+                  <h1> {{maintenant.humidite}} </h1>
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
-        <div class="col-md-4">
-          <a (click)="affichecP()">
-            <div class="card">
-              <div class="card-header bg-secondary text-white text-center">
-                <h6 style="margin: 0">Poids <img src="../../assets/icon/poids.ico" style="width:32px; height: 32px "></h6>
-              </div>
-              <div class="card-body text-center">
-                <h1> {{maintenant.poid}} g</h1>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-md-4">
-          <a (click)="affichecH()">
-            <div class="card">
-              <div class="card-header bg-secondary text-white text-center">
-                <h6></h6><h6 style="margin: 0">Humidité <img src="../../assets/icon/humidité.png" style="color: rgb(17, 169, 230); width:32px; height: 32px "></h6>
-              </div>
-              <div class="card-body text-center">
-                <h1> {{maintenant.humidite}} </h1>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
-      <div class="row">
 
-            <div class="col-md-12" [class.t]=t>
+        <div style="margin-top: 10px; margin-bottom: 10px;" class="row">
+          <div style="float: right;">
+              <span style="margin-right: 10px;" [class.date]="((t&&p)&&h)"><strong>Date: </strong> </span>
+              <select [class.dateA]="!((t&&p)&&h)" class="form-control" [class.date]="((t&&p)&&h)"  (change)="CourbeDate($event.target.value)" >
+                <option value='tout'>Toutes</option>
+                <option value='0.5'>Moins de 12 heures</option>
+                <option value='1'>Moins de 24 heures</option>
+                <option value='7'>Moins d'une semaine</option>
+                <option value='30'>Moins d'un mois</option>
+              </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12" [class.t]=t>
+            <div class="card">
+              <div class="card-body text-center">
+                  <canvas #lineChartT>{{ chartT }}</canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" [class.p]=p>
+            <div class="card">
+              <div class="card-body text-center">
+                  <canvas #lineChartP>{{ chartP }}</canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" [class.h]=h>
               <div class="card">
                 <div class="card-body text-center">
-                    <canvas #lineChartT>{{ chartT }}</canvas>
+                    <canvas #lineChartH>{{ chartH }}</canvas>
                 </div>
               </div>
-            </div>
-            <div class="col-md-12" [class.p]=p>
-              <div class="card">
-                <div class="card-body text-center">
-                    <canvas #lineChartP>{{ chartP }}</canvas>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-12" [class.h]=h>
-                <div class="card">
-                  <div class="card-body text-center">
-                      <canvas #lineChartH>{{ chartH }}</canvas>
-                  </div>
-                </div>
-            </div>
-
+          </div>
+        </div>
       </div>
-    </div>

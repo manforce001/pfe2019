@@ -32,20 +32,20 @@ import { AuthGuardService } from '../login/AuthGuard.service';
 
 
 const route: Routes = [
-  {path: 'admin',   component: AdminComponent },
-  {path: 'admin/client/ajoute',   component: AjouteClientComponent},
-  {path: 'admin/client/supprimer', component: SuppClientComponent},
-  {path: 'admin/employe/ajoute',   component: AjouterEmpComponent},
-  {path: 'admin/employe/modifier', component: ModifierEmpComponent},
-  {path: 'admin/employe/supprimer',  component: SupprimerEmpComponent},
-  {path: 'admin/ruche/ajouter',  component: AjouterucheComponent},
-  {path: 'admin/ruche/maintenance',  component: MaintenancerucheComponent},
+  {path: 'admin',  canActivate : [AuthGuardService], component: AdminComponent },
+  {path: 'admin/client/ajoute',  canActivate : [AuthGuardService], component: AjouteClientComponent},
+  {path: 'admin/client/supprimer',  canActivate : [AuthGuardService], component: SuppClientComponent},
+  {path: 'admin/employe/ajoute',  canActivate : [AuthGuardService], component: AjouterEmpComponent},
+  {path: 'admin/employe/modifier',  canActivate : [AuthGuardService], component: ModifierEmpComponent},
+  {path: 'admin/employe/supprimer',  canActivate : [AuthGuardService], component: SupprimerEmpComponent},
+  {path: 'admin/ruche/ajouter',  canActivate : [AuthGuardService], component: AjouterucheComponent},
+  {path: 'admin/ruche/maintenance',  canActivate : [AuthGuardService], component: MaintenancerucheComponent},
   {path: 'admin/ListModifierEmploye',  canActivate : [AuthGuardService], component: RechMEComponent},
   {path: 'admin/ListSupprimerEmploye',  canActivate : [AuthGuardService], component: RechSeComponent},
   {path: 'admin/ListAjouteRuche',  canActivate : [AuthGuardService], component: RechARComponent},
   {path: 'admin/ListSupprimerClient',  canActivate : [AuthGuardService], component: RechSCComponent},
   {path: 'admin/ModifierEmploye',  canActivate : [AuthGuardService], component: ModifierEmployeeComponent},
-  {path: 'admin/client/ruche/ajouter', component: AjouteRucheRechComponent},
+  {path: 'admin/client/ruche/ajouter',  canActivate : [AuthGuardService], component: AjouteRucheRechComponent},
 
 
 

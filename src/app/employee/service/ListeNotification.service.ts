@@ -55,14 +55,29 @@ export class ListeNotificationService {
     this.data.resultat = res;
     this.data.rucheid = rucheid;
     this.data.date = date;
+    let item = {
+      action: '',
+      date: '',
+      detail: '',
+    };
+    item.action = 'Réparation';
+    item.date = date;
+    item.detail = dicription;
     this.httpClient.put('https://smart-ruche.firebaseio.com/notificationC/' + cinClient + '/' + date + '.json', this.data).subscribe(
       (response) => {
         console.log('valider');
       },
       (error) => {
         console.log('error!! :'+ error);
-      }
-    );
+      });
+    this.httpClient.put('https://smart-ruche.firebaseio.com/clients/' + cinClient + '/ruches/' + rucheid  + '/historique/'+date+'.json', item).subscribe(
+      (response) => {
+        console.log('put H valider');
+
+      },
+      (error) => {
+        console.log('put H error!! :'+ error);
+      });
   }
   moveToHistorique(idNotification: any, cinEmp: any, ) {
     this.httpClient.get<any[]>('https://smart-ruche.firebaseio.com/notificationE/' + cinEmp + '/' + idNotification +'.json')

@@ -23,6 +23,13 @@ export class LoginComponent implements OnInit {
   ListeEmps = [] ;
   isAuth = false;
   p;
+  item;
+  listClient = [];
+  listeC;
+  dblisteC;
+  listEmploye = [];
+  listeE;
+  dblisteE;
   emit() {
     this.subject.next(this.admi);
   }
@@ -36,12 +43,16 @@ export class LoginComponent implements OnInit {
     this.testAdmin(this.Identifient);
     listeClient.get();
     listeEmp.get();
+    this.dblisteE = db.list('/employe');
+    this.dblisteC = db.list('/clients');
 
   }
 
-  ngOnInit() {}
-  affiche() {
+  ngOnInit() {
+    this.getListeE();
+    this.getListeC();
   }
+  affiche() {}
   connect() {
     this.spinner.show();
     firebase.auth().signInWithEmailAndPassword(this.Identifient, this.mdp).then(() => {
@@ -54,15 +65,13 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/client'], { queryParams : { email: this.Identifient}});
           this.isAuth = true;
         } else {
-          if (this.testEmployee(this.Identifient) ) {
+
+          if (this.testEmployee(this.Identifient)) {
             this.getSetprofile.set(this.p);
             this.router.navigate(['/employee'], { queryParams : { email: this.Identifient}});
-            this.isAuth = true;
-          } else {
-            firebase.auth().signOut();
-            this.router.navigate(['/']);
-            this.isAuth = false;
-          }
+            this.isAuth = true;}
+
+
         }
       }
     } , (error) => {
@@ -91,20 +100,34 @@ export class LoginComponent implements OnInit {
 
   }
   testClient( email: string) {
-   let verif = false;
-   this.ListeClients = this.listeClient.get();
-   this.ListeClients.forEach(action => {
-    if ( action.email === email) {
-      verif = true;
-      this.p = action;
+    let verif = false;
+    let array = [];
+    this.getListeE()
+    for(let k in this.listeC)
+    {
+      if (this.listeC.hasOwnProperty(k)) {
+        array.push(this.listeC[k]);
+      }
     }
-   });
-   return verif;
+    array.forEach(action => {
+     if ( action.email === email) {
+       verif = true;
+       this.p = action;
+     }
+    });
+    return verif;
   }
   testEmployee( email: string) {
     let verif = false;
-    this.ListeEmps = this.listeEmp.get();
-    this.ListeEmps.forEach(action => {
+    let array = [];
+    this.getListeE()
+    for(let k in this.listeE)
+    {
+      if (this.listeE.hasOwnProperty(k)) {
+        array.push(this.listeE[k]);
+      }
+    }
+    array.forEach(action => {
      if ( action.email === email) {
        verif = true;
        this.p = action;
@@ -112,4 +135,15 @@ export class LoginComponent implements OnInit {
     });
     return verif;
    }
+   getListeE () {
+    this.dblisteE.valueChanges().subscribe(firebaseData => {
+      this.listeE = firebaseData;
+    });
+   }
+   getListeC(){
+    this.dblisteC.valueChanges().subscribe(firebaseData => {
+      this.listeC = firebaseData;
+    });
+   }
 }
+

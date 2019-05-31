@@ -22,14 +22,27 @@ export class AddAlertService {
     this.data.discription = dd;
     this.data.type = 'urgent';
     this.data.rucheid = id;
-
+    let item = {
+      action: '',
+      date: '',
+      detail: '',
+    };
+    item.action = 'Probleme';
+    item.date = date;
+    item.detail = dd;
     this.httpClient.put('https://smart-ruche.firebaseio.com/notificationE/' + cinEmp + '/' + date + '.json', this.data).subscribe(
       () => {
         console.log('valider ! : ');
       },
       (error) => {
         console.log('Erreur ! : ' + error);
-      }
-  );
+      });
+    this.httpClient.put('https://smart-ruche.firebaseio.com/clients/' + cin + '/ruches/' + id  + '/historique/'+date+'.json', item).subscribe(
+      (response) => {
+        console.log('put H valider');
+      },
+      (error) => {
+        console.log('put H error!! :'+ error);
+      });
   }
 }

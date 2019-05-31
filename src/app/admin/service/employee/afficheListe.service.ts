@@ -13,7 +13,7 @@ export class AfficheListeService {
   get() {
     let array =[];
     this.Listearray.pop();
-    this.httpClient.get<any>('https://smart-ruche.firebaseio.com/employe.json').subscribe(
+    this.httpClient.get<any[]>('https://smart-ruche.firebaseio.com/employe.json').subscribe(
       (response) => {
         this.Listearray.pop();
         for( let key in response) {

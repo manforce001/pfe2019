@@ -9,7 +9,7 @@ import { AfficheUnService } from '../../service/employee/afficheUn.service';
 import { AfficheListeRucheService } from '../../service/client/afficheListeRuche.service';
 import { AngularFireDatabase , AngularFireList } from 'angularfire2/database';
 import { RechPlaceService } from '../../service/employee/recherche/rechPlace.service';
-import { EmployeForm } from '../../service/employeForm';
+import { GetSetListeService } from '../../service/employee/recherche/getSetListe.service';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -65,23 +65,73 @@ export class AjouteRucheRechComponent implements OnInit {
     humidite: '0',
     temperature: '0',
   };
+  dblisteE;
+  listeE;
+  listeEmploye = [];
 constructor(private rech: RechPlaceService ,
             private route: ActivatedRoute ,
             private router: Router,
             private httpClient: HttpClient,
             private db: AngularFireDatabase,
+            private xx: GetSetListeService,
             private listeRuche: AfficheListeRucheService,
             private aff: AfficheUnService) {
-    this.route.queryParams.subscribe(params => {
-       this.data = params  ;
+              this.dblisteE = db.list('/employe');
+              this.route.queryParams.subscribe(params => {
+                this.data = params  ;
+              });
+              this.empl = this.rech.getGouv(this.gouv);
+              this.listeRuche.getid(this.data.cin);
+            }
+   getListeEmpl() {
+    this.listeEmploye.pop();
+    this.getListE();
+    for(let k in this.listeE)
+    {
+      if (this.listeE.hasOwnProperty(k)) {
+        if(!this.existe(this.listeE[k],this.listeEmploye)) {
+        this.listeEmploye.push(this.listeE[k]);
+        }
+      }
+    }
+  }
+  existe( e,t) {
+    for(let  k of t) {
+      if(k.cin === e.cin) {
+        return true;
+      }
+    }
+    return false;
+  }
+  getListE () {
+    this.dblisteE.valueChanges().subscribe(firebaseData => {
+      this.listeE = firebaseData;
     });
-    this.empl = this.rech.getGouv(this.gouv);
-    this.listeRuche.getid(this.data.cin);
-
 
    }
-
+  getE(cin) {
+    let w;
+    this.getListeEmpl();
+    const a = this.listeEmploye;
+    for(let key of a){
+        w = key;
+    }
+    return w;
+  }
+  getListeE(place) {
+    let listeEmp = [];
+    this.getListeEmpl();
+    listeEmp.pop();
+    const a = this.listeEmploye;
+    for (let key of a ){
+      if ((key.gouvernerat === place)&& ( listeEmp.indexOf(key) < 0)) {
+        listeEmp.push(key);
+      }
+    }
+    return listeEmp;
+  }
   ngOnInit() {
+    this.getListE ();
   }
   onChange(value: any) {
     this.empl = null;
@@ -98,13 +148,11 @@ constructor(private rech: RechPlaceService ,
   onChangeV(value: any) {
     this.ville = value as string;
     this.empListe = false;
-    this.empl = this.rech.getGouv(this.gouv);
+    this.empl = this.getListeE(this.gouv);
 
   }
   onChangeE(value: any) {
-
    this.cinemplres = value as string;
-   console.log(this.cinemplres);
   }
   ajoute() {
     let idruche =  this.listeRuche.getid(this.data.cin) + 1;
@@ -113,16 +161,36 @@ constructor(private rech: RechPlaceService ,
     this.ruche.cinEmplRes = this.cinemplres ;
     this.ruche.gouvernerat = this.gouv;
     this.ruche.ville = this.ville;
+    let nbrRuche = ( (this.getE(this.cinemplres).nbrRuche as number ) + 1 );
+    let action ={
+      action: 'start',
+      date: this.ruche.dateLancement,
+      detail: 'votre ruche est activée '
+      };
     this.httpClient.put('https://smart-ruche.firebaseio.com/clients/'+this.data.cin+'/ruches/'+idruche+'.json', this.ruche ).subscribe(
       () => {
         this.httpClient.put('https://smart-ruche.firebaseio.com/clients/'+this.data.cin+'/ruches/'+idruche+'/donnees/'+this.ruche.dateLancement+'.json', this.donnees ).subscribe(
           () => {
-            this.router.navigate(['/admin']);
-          },
-          (error) => {
-            console.log('Erreur ! : ' + error);
-          }
-        );
+            this.httpClient.put('https://smart-ruche.firebaseio.com/clients/' +this.cinemplres+ '/nbrRuche.json', nbrRuche).subscribe(()=>
+              {
+                this.httpClient.put('https://smart-ruche.firebaseio.com/clients/' +this.cinemplres+'/ruches/'+idruche+'/historique/'+this.ruche.dateLancement+'.json', action).subscribe(
+                  ()=> {
+                          this.router.navigate(['/admin']);
+                        },
+                        (error)=>{
+                          console.log("non val"+error)
+                        }
+                      );
+                  },
+                  (error)=>{
+                    console.log("non val"+error)
+                  }
+                );
+            },
+            (error) => {
+              console.log('Erreur ! : ' + error);
+            }
+          );
       },
       (error) => {
         console.log('Erreur ! : ' + error);
