@@ -66,18 +66,18 @@ export class EmployeeComponent implements OnInit  {
  getListeC(){
   this.dblisteC.valueChanges().subscribe(firebaseData => {
     this.listeC = firebaseData;
-  });
-  while (this.listeClient.length > 0 ) {
-    this.listeClient.pop();
-  }
-  if (!(this.listeC === undefined)) {
-    for (let k of this.listeC) {
-      if ((this.getIdClient(k).verif)) {
-        this.listeClient.push(this.getIdClient(k).elm);
+    while (this.listeClient.length > 0 ) {
+      this.listeClient.pop();
+    }
+    if (!(this.listeC === undefined)) {
+      for (let k of this.listeC) {
+        if ((this.getIdClient(k).verif)) {
+          this.listeClient.push(this.getIdClient(k).elm);
+        }
       }
     }
-  }
-  console.log(this.listeClient);
+
+  });
  }
  afficheNotification() {
     const array = [];
@@ -118,6 +118,7 @@ export class EmployeeComponent implements OnInit  {
         }
       }
     }
+    window.console.clear();
   }
   getIdClient(client) {
     let array = {

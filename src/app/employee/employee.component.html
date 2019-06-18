@@ -65,8 +65,6 @@
                     <a class="card-link" data-toggle="collapse" href="#idR{{listeClient.indexOf(client)}}{{client.ruches.indexOf(ruche)}}">
                       <strong> Ruche N° : {{client.ruches.indexOf(ruche)+1}} </strong>
                       <span ><strong>Client :</strong> {{client.clientcin}} </span>
-                      <span *ngIf="!ruche.status" style="float: right"><i style="color:rgb(0, 255, 55)" class="far fa-check-circle"></i> </span>
-                      <span *ngIf="ruche.status"  style="float: right"> <i style="color:rgb(237, 226, 18)" class="fas fa-exclamation-triangle"></i> </span>
                     </a>
                   </div>
                   <div id="idR{{listeClient.indexOf(client)}}{{client.ruches.indexOf(ruche)}}" class="collapse" data-parent="#accordion">
@@ -107,7 +105,7 @@
             <div *ngFor = "let notification of notifications" class="card">
                 <div class="card-header">
                   <a class="card-link" data-toggle="collapse" href="#id{{notifications.indexOf(notification)}}">
-                   <strong> Notification : </strong>
+                   <strong> Client : {{notification.client}} </strong>
                     <span style="float: right"><strong>Date :</strong> {{notification.date}} </span>
                   </a>
                 </div>

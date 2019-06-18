@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
                private listeEmp: AfficheListeServiceEmp,
                private spinner: NgxSpinnerService,
                private getSetprofile: ProfileService ) {
+
     this.testAdmin(this.Identifient);
     listeClient.get();
     listeEmp.get();
@@ -51,6 +52,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.getListeE();
     this.getListeC();
+    window.console.clear();
   }
   affiche() {}
   connect() {

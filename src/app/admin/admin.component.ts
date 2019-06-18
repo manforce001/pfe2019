@@ -12,6 +12,33 @@ import { AngularFireDatabase } from 'angularfire2/database';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
+  listeregion = [
+    {'id': "Ariana", 'liste': ["Ariana Ville", "Ettadhamen","Kalâat el-Andalous","Soukra","Mnihla","Raoued","Sidi Thabet"]},
+    {'id': "Béja", 'liste': ["Amdoun", "Béja Nord", "Béja Sud", "Goubellat", "Medjez el-Bab", "Nefza", "Téboursouk", "Testour", "Thibar"]},
+    {'id': "Ben Arous", 'liste': ["Ben Arous", "Radès", "Mornag", "Mégrine", "Medina Jedida", "Mohamedia", "Hammam Lif", "Hammam Chott", "Fouchana", "Ezzahra", "El Mourouj", "Bou Mhel el-Bassatine"]},
+    {'id': "Bizerte", 'liste': ["Bizerte Nord", "Bizerte Sud", "El Alia", "Ghar El Melh", "Ghezala", "Joumine", "Mateur", "Menzel Bourguiba", "Menzel Jemil", "Ras Jebel", "Sejnane", "Tinja", "Utique", "Zarzouna"]},
+    {'id': "Gabès", 'liste': ["xxxx", "wwww"]},
+    {'id': "Gafsa", 'liste': ["xxxx", "wwww"]},
+    {'id': "Jendouba", 'liste': ["xxxx", "wwww"]},
+    {'id': "Kairouan", 'liste': ["xxxx", "wwww"]},
+    {'id': "Kasserine", 'liste': ["xxxx", "wwww"]},
+    {'id': "Kébili", 'liste': ["xxxx", "wwww"]},
+    {'id': "Le Kef", 'liste': ["xxxx", "wwww"]},
+    {'id': "Mahdia", 'liste': ["xxxx", "wwww"]},
+    {'id': "Manouba", 'liste': ["xxxx", "wwww"]},
+    {'id': "Médenine", 'liste': ["xxxx", "wwww"]},
+    {'id': "Monastir", 'liste': ["xxxx", "wwww"]},
+    {'id': "Nabeul", 'liste': ["xxxx", "wwww"]},
+    {'id': "Sfax", 'liste': ["xxxx", "wwww"]},
+    {'id': "Sidi Bouzid", 'liste': ["xxxx", "wwww"]},
+    {'id': "Siliana", 'liste': ["xxxx", "wwww"]},
+    {'id': "Sousse", 'liste': ["xxxx", "wwww"]},
+    {'id': "Tataouine", 'liste': ["xxxx", "wwww"]},
+    {'id': "Tozeur", 'liste': ["xxxx", "wwww"]},
+    {'id': "Tunis", 'liste': ["xxxx", "wwww"]},
+    {'id': "Zaghouan", 'liste': ["xxxx", "wwww"]},
+
+  ];
   donnees = [{
     gouv:'',
     region: [{
@@ -32,9 +59,12 @@ export class AdminComponent implements OnInit {
   sc = true;
   me = true;
   se = true;
+  ListeRegion: any;
   date: any = 'tout';
   region: any = 'tout';
   gouv: any = 'tout';
+  ToutRuche = [];
+  ToutRucheT = [];
   rechercheAR() {
       this.ar = !( this.ar );
       this.sc = true;
@@ -79,7 +109,9 @@ export class AdminComponent implements OnInit {
     });
    }
   getListeEmpl() {
-    this.listeEmploye.pop();
+    while(this.listeEmploye.length > 0 ){
+      this.listeEmploye.pop();
+    }
     this.getListeE();
     for(let k in this.listeE)
     {
@@ -123,6 +155,8 @@ export class AdminComponent implements OnInit {
     this.getListeC();
     this.getListeEmpl() ;
     this.getListeClient() ;
+    this.ToutRuche = this.getDonnees();
+    window.console.clear();
   }
   rechAR() {
       this.route.navigate(['/admin/ListAjouteRuche'], {
@@ -136,36 +170,60 @@ export class AdminComponent implements OnInit {
     queryParams: {
       nom: this.SuppC
     } });
-  }/*
+  }
   getDonnees(){
     this.getListeClient();
-    this.donnees = [];
-     for(let key of  this.listeClient) {
-       for(let keyy in key.ruches){
-         if(key.ruches.hasOwnProperty(keyy)){
-          this.donnees[0].region
-           for(let keyyy in key.ruches[keyy].donnees){
-            if(key.ruches[keyy].donnees.hasOwnProperty(keyyy)){
+    let tabRuche = [];
+    for (let key of  this.listeClient) {
+      for (let keyy in key.ruches) {
+        if (key.ruches.hasOwnProperty(keyy)) {
+          tabRuche.push(key.ruches[keyy]);
+        }
+      }
+    }
 
-            }
-           }
-         }
-       }
-     }
-
-    return;
+    return tabRuche;
   }
   dateStat(value){
     this.date = value;
+
   }
-  gouvStat(value){
+  gouvStat(value) {
     this.gouv = value;
+    if (value !== 'tout') {
+       this.listeregion.forEach(element => {
+          if (element["id"] === value) {
+            this.ListeRegion = element["liste"];
+          }
+       });
+    }
   }
-  regionStat(value){
+  regionStat(value) {
     this.region = value;
   }
-  afficheStat(){
+  afficheStat() {
+    this.ToutRucheT = this.ToutRuche;
+    if (this.gouv !== 'tout') {
+      let tab = [];
+      for (let k of this.ToutRucheT){
+        if (k.gouvernerat === this.gouv) {
+          tab.push(k);
+        }
+      }
+      while (this.ToutRucheT.length > 0) { this.ToutRucheT.pop(); }
+      this.ToutRucheT = tab;
+      if (this.region !== 'tout') {
+        let tab = [];
+        for (let k of this.ToutRucheT) {
+          if (k.ville === this.region) {
+            tab.push(k);
+          }
+        }
+        while (this.ToutRucheT.length > 0) { this.ToutRucheT.pop(); }
+        this.ToutRucheT = tab;
+      }
+    }
 
-  }*/
+  }
 
 }

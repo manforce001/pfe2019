@@ -6,7 +6,10 @@
       <div id="ListeNavBarRuche" class="dropdown-menu">
         <a id="ListeNavBarRucheItem"  *ngFor="let ruche of ruches" class="dropdown-item itmRuche" (click)="affiche(ruche,ruches.indexOf(ruche))" >
           <div>
-            <a>Ruche {{indexRuche[ruches.indexOf(ruche)]}}</a>
+            <a>Ruche {{indexRuche[ruches.indexOf(ruche)]}}
+              <i *ngIf="!Activer(ruche).active" class="fas fa-circle" style="float: right; color: #ff0000;"></i>
+              <i *ngIf="Activer(ruche).active" class="fas fa-circle" style="float: right; color: #33ff00;"></i>
+            </a>
           </div>
           <hr>
         </a>
@@ -42,7 +45,10 @@
         <hr style=" border: 5px solid #343a40!important ;">
         <a  id="ListeSideBarRucheItem" *ngFor="let ruche of ruches" class="itmRuche" (click)="affiche(ruche,indexRuche[ruches.indexOf(ruche)])" >
           <div>
-            <a>Ruche {{indexRuche[ruches.indexOf(ruche)]}}</a>
+            <a>Ruche {{indexRuche[ruches.indexOf(ruche)]}}
+                <i *ngIf="!Activer(ruche).active" class="fas fa-circle" style="margin-right:10px ; float: right; color: #ff0000;"></i>
+                <i *ngIf="Activer(ruche).active" class="fas fa-circle" style="margin-right:10px ; float: right; color: #33ff00;"></i>
+            </a>
           </div>
           <hr>
         </a>
@@ -67,8 +73,15 @@
               <div class="col-md-12">
                 <div class="card">
                   <div class="card-header">
+                      <span style="float: right; margin-left:10px ;"><a  data-toggle="tooltip" title="Actualise l'information" class="btn btn-warning " (click)="actualiser()"><i class="fas fa-sync"></i>  </a></span>
+
                       <span style="float: right"><a class="btn btn-warning " data-toggle="modal" data-target="#historique">Historique </a></span>
-                    <h2>Ruche {{idRuche}}</h2>
+
+                      <h2>Ruche {{idRuche}}
+                        <i *ngIf="!Activer(tabBORD).unst" data-toggle="tooltip" title="Le ruche n'est pas installé dans le terrain !!"  class="fas fa-exclamation-triangle" style="font-size:17px; color: #ffe600;"></i>
+                        <i data-toggle="tooltip" title="Il y'a {{Activer(tabBORD).ilya}} minute inactif !!" *ngIf="!Activer(tabBORD).active && Activer(tabBORD).unst" class="fas fa-circle" style="font-size:17px; color: #ff0000;"></i>
+                        <i data-toggle="tooltip" title="Connecté" *ngIf="Activer(tabBORD).active" class="fas fa-circle" style="font-size:17px; color: #33ff00;"></i>
+                    </h2>
 
                   </div>
                   <div class="card-body">

@@ -8,6 +8,7 @@ import { RemoveNotifService} from './service/removeNotif.service';
 import { AddAlertService } from './service/AddAlertService.service';
 import { ProfileService } from '../profile.service'
 import { from } from 'rxjs';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Component({
   selector: 'app-client',
@@ -37,17 +38,20 @@ export class ClientComponent implements OnInit {
   notificationSs = [];
   discription: any;
   idRucheAlert: any;
+  actualiserdb;
   constructor(private router: Router,
               private route: ActivatedRoute ,
               private ListeSer: ProfileService,
               private ListeNotif: ListeNotificationService,
               private RemoveNotif: RemoveNotifService,
-              private AddAlert: AddAlertService
+              private AddAlert: AddAlertService,
+              private db: AngularFireDatabase,
               ) {
     route.queryParams.subscribe(params => {
     this.email = params.email;
     });
     this.profile = ListeSer.get();
+    this.actualiserdb = db.list('/clients/' + this.profile.cin + '/ruches');
 
     this.NomberRuche = 0;
     for (let key in this.listeRuche(this.profile)) {
@@ -119,6 +123,7 @@ export class ClientComponent implements OnInit {
   }
   ngOnInit() {
     this.ListeNotif.gets(this.profile.cin);
+    window.console.clear();
   }
   trieDonnees(ruche: any) {
     let objet = {
@@ -196,4 +201,42 @@ export class ClientComponent implements OnInit {
     }
     return array.reverse();
   }
+  Activer(ruche) {
+    let date = new Date();
+    let dNow = date.getHours() + ":" + date.getMinutes() + "-" + date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
+    let verif = {
+      active : false,
+      ilya: 0,
+      unst: false
+    };
+    if (ruche.active !== undefined) {
+      verif.unst = true;
+      if (this.verife(ruche.active, dNow) < 15) {
+        verif.active = true;
+      } else {
+        verif.ilya = this.verife(ruche.active, dNow);
+      }
+    }
+    return verif;
+  }
+  verife(a , n) {
+    const ta = a.split('-');
+    const houra = ta[0].split(':');
+    const tb = n.split('-');
+    const hourb = tb[0].split(':');
+    const NumA = ( (Number(houra[0]) * 60) + (Number(houra[1])) + (Number(ta[1]) * 60 * 24));
+    const NumN = ( (Number(hourb[0]) * 60) + (Number(hourb[1])) + (Number(tb[1]) * 60 * 24));
+    return NumN - NumA;
+  }
+  actualiser() {
+    this.actualiserdb.valueChanges().subscribe(firebaseData => {
+      this.ruches = firebaseData;
+    });
+    $(document).ready( function() {
+      $("#ListeSideBarRuche div:first").addClass("active");
+    });
+    this.tabBORD = this.ruches['0'];
+    this.idRuche = this.indexRuche[0];
+  }
+
 }

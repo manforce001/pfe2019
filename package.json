@@ -7,7 +7,10 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "compodoc-create": "npx compodoc -p src/tsconfig.app.json",
+    "compodoc-start": "compodoc src -s",
+    "compodoc": "npm run compodoc-create; npm run compodoc-start"
   },
   "private": true,
   "dependencies": {
@@ -20,6 +23,7 @@
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
+    "@compodoc/compodoc": "^1.1.9",
     "angular-gauge": "^3.1.1",
     "angular-gauge-chart": "^0.6.0",
     "angularfire2": "^5.1.3",
