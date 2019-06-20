@@ -8,3 +8,6 @@ button{
 button :hover{
   color: #b8b1b1
 }
+.displa{
+  display: none;
+}

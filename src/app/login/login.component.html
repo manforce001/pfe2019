@@ -19,6 +19,8 @@
             <input [(ngModel)]='mdp' name="mdp" type="password" id="inputMp" class="form-control" placeholder="Mot de passe" required>
           </div>
           <br>
+          <p [class.displa]="verifCord" style="color: red;">Verifier votre Cordonnées</p>
+          <br>
           <button class="btn btn-lg btn-block"  (click)="connect()" ><span> Sign in</span></button>
          <!-- <div class="text-center" style=" margin-top: 5%;padding-bottom: 5%">
             <a  class="mt-5 mb-3 text-muted text-center" (click)="affiche()">Propre</a>

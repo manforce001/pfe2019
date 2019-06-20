@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
   listEmploye = [];
   listeE;
   dblisteE;
+  verifCord= true;
   emit() {
     this.subject.next(this.admi);
   }
@@ -56,6 +57,7 @@ export class LoginComponent implements OnInit {
   }
   affiche() {}
   connect() {
+    this.verifCord=true;
     this.spinner.show();
     firebase.auth().signInWithEmailAndPassword(this.Identifient, this.mdp).then(() => {
       if (this.testAdmin(this.Identifient)) {
@@ -78,7 +80,7 @@ export class LoginComponent implements OnInit {
       }
     } , (error) => {
       this.spinner.hide();
-      console.log(error.code);
+      this.verifCord=false;
     }
   );
 
